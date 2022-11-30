@@ -1,5 +1,5 @@
 var MongoClient = require('mongodb').MongoClient
-
+var data = require("./data.js").data
 const uri = "mongodb://0.0.0.0:27017/"
 const client = new MongoClient(uri)
 async function run() {
