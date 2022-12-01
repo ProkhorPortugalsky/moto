@@ -1,20 +1,16 @@
 var mongoose = require('mongoose')
-mongoose.connect('mongodb://0.0.0.0/test')
+mongoose.connect('mongodb://0.0.0.0/test1')
 
-var schema = mongoose.Schema({ name: String })
+var Mot = require("./models/mot").Mot
 
-schema.methods.frrr = function(){
-    console.log(this.get("name")+ "sounds loud!")
-} 
+var mot = new Mot({
+    title: "Honda CRF", 
+    nick: "honda_crf"
+})
 
-var Mot = mongoose.model('Honda', schema)
+console.log(mot)
 
-var Motty = new Mot({ name: 'CRF' })
-Motty.save(function (err) {
-    if (err) {
-        console.log(err)
-    } else {
-        Motty.frrr();
-    }
+mot.save(function () {
+        console.log(mot.title)
 })
 
