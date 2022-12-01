@@ -7,6 +7,9 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+var mongoose = require('mongoose')
+mongoose.connect('mongodb://0.0.0.0/motos');
+
 var app = express();
 
 // view engine setup
