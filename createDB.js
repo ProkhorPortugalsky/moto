@@ -9,7 +9,7 @@ async function run() {
         database.dropDatabase()
         database = client.db("moto");
         const motos = database.collection("motos");
-        const result = await motos.insertOne({name:"KTM 125"});
+        const result = await motos.insertMany(data);
         console.log(`${result} documents were inserted`);
     } 
     finally {
