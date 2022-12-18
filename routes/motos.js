@@ -1,14 +1,18 @@
 var express = require('express');
 var router = express.Router();
+var Mot = require("../models/mot").Mot
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('Новый маршрутизатор, для маршрутов, начинающихся с motos');
-});
-
-/* Страница мотоциклов */
-router.get("/:nick", function(req, res, next) {
-    res.send(req.params.nick);
-});
+/* Страница моделей */
+router.get('/:nick', function(req, res, next) {
+    Mot.findOne({nick:req.params.nick}, function(err,mot){
+        if(err) return next(err)
+        if(!mot) return next(new Error("Нет такой модели"))
+        res.render('moto', {
+            title: mot.title,
+            picture: mot.avatar,
+            desc: mot.desc
+        })
+    })
+})
 
 module.exports = router;

@@ -9,7 +9,7 @@ var usersRouter = require('./routes/users');
 var motosRouter = require('./routes/motos');
 
 var mongoose = require('mongoose')
-mongoose.connect('mongodb://0.0.0.0/motos');
+mongoose.connect('mongodb://0.0.0.0/moto');
 
 var app = express();
 
