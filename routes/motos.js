@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var Mot = require("../models/mot").Mot
+var checkAuth = require("./../middleware/checkAuth.js")
 
 // /* Страница моделей */
-router.get('/:nick', function(req, res, next) {
+router.get('/:nick', checkAuth, function(req, res, next) {
     Mot.findOne({nick:req.params.nick},function(err,mot){
         if(err) return next(err)
         if(!mot) return next(new Error("Нет такой модели КТМ"))
