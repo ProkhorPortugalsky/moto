@@ -3,14 +3,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var session = require("express-session")
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var motosRouter = require('./routes/motos');
 
-var mongoose = require('mongoose')
-mongoose.connect('mongodb://0.0.0.0/moto');
+// var mongoose = require('mongoose')
+// mongoose.connect('mongodb://0.0.0.0/moto');
+var mysql2 = require('mysql2/promise');
+var session = require("express-session");
 
 var app = express();
 
@@ -25,14 +26,39 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var MongoStore = require('connect-mongo');
-app.use(session({
-  secret: "Mots",
-  cookie:{maxAge:60*1000},
-  resave: true,
-  saveUninitialized: true,
-  store: MongoStore.create({mongoUrl: 'mongodb://0.0.0.0/moto'})  
-}))
+//var MongoStore = require('connect-mongo');
+var MySQLStore = require('express-mysql-session');
+
+var options = {
+  host : '127.0.0.1',
+  port: '3306',
+  user : 'root',
+  password : 'Wwwprohor15',
+  database: 'motos'
+  };
+  var connection = mysql2.createPool(options)
+  var sessionStore = new MySQLStore( options, connection);  
+
+  app.use(session({
+    secret: 'Mots',
+    key: 'sid',
+    store: sessionStore,
+    resave: true,
+    saveUninitialized: true,
+    cookie: { path: '/',
+    httpOnly: true,
+    maxAge: 60*1000
+    }
+    }));
+    
+// app.use(session({
+//   secret: "Mots",
+//   cookie:{maxAge:60*1000},
+//   resave: true,
+//   saveUninitialized: true,
+//   store: MongoStore.create({mongoUrl: 'mongodb://0.0.0.0/moto'})  
+// }))
+
 
 app.use(function(req,res,next){
   req.session.counter = req.session.counter +1 || 1
