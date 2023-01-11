@@ -27,7 +27,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //var MongoStore = require('connect-mongo');
-var MySQLStore = require('express-mysql-session');
+var MySQLStore = require('express-mysql-session')(session);
 
 var options = {
   host : '127.0.0.1',
@@ -67,7 +67,6 @@ app.use(function(req,res,next){
 
 app.use(require("./middleware/createMenu.js"))
 app.use(require("./middleware/createUser.js"))
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/motos', motosRouter);
